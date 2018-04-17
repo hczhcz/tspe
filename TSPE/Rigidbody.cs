@@ -6,9 +6,8 @@
     {
         public Manager Manager;
 
-        public double Mass;
-        public Vector InertiaTensor;
-        public Quaternion InertiaTensorRotation;
+        public Inertia Inertia;
+        public PhysicsInput PhysicsInput;
 
         public Vector Velocity;
         public Vector Position;
