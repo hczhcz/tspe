@@ -1,5 +1,7 @@
 ﻿namespace TSPE.Utils
 {
+    using JetBrains.Annotations;
+
     public struct Matrix
     {
         public readonly Vector U;
@@ -13,6 +15,7 @@
             W = w;
         }
 
+        [Pure]
         public Matrix Add(Matrix matrix)
         {
             return new Matrix(
@@ -22,6 +25,7 @@
             );
         }
 
+        [Pure]
         public Matrix Scale(double scalar)
         {
             return new Matrix(
@@ -31,6 +35,7 @@
             );
         }
 
+        [Pure]
         public Matrix Transpose()
         {
             return new Matrix(
@@ -40,31 +45,13 @@
             );
         }
 
-        public Vector Apply(Vector vector)
-        {
-            return new Vector(
-                U.Dot(vector),
-                V.Dot(vector),
-                W.Dot(vector)
-            );
-        }
-
-        public Matrix Transform(Matrix matrix)
-        {
-            Matrix tMatrix = matrix.Transpose();
-
-            return new Matrix(
-                Apply(tMatrix.U),
-                Apply(tMatrix.V),
-                Apply(tMatrix.W)
-            ).Transpose();
-        }
-
+        [Pure]
         public double Determinant()
         {
             return U.Dot(V.Cross(W));
         }
 
+        [Pure]
         public Matrix Inverse()
         {
             Matrix t = Transpose();
@@ -74,6 +61,28 @@
                 t.W.Cross(t.U),
                 t.U.Cross(t.V)
             ).Transpose().Scale(1 / Determinant());
+        }
+
+        [Pure]
+        public Vector Apply(Vector vector)
+        {
+            return new Vector(
+                U.Dot(vector),
+                V.Dot(vector),
+                W.Dot(vector)
+            );
+        }
+
+        [Pure]
+        public Matrix Transform(Matrix matrix)
+        {
+            Matrix tMatrix = matrix.Transpose();
+
+            return new Matrix(
+                Apply(tMatrix.U),
+                Apply(tMatrix.V),
+                Apply(tMatrix.W)
+            ).Transpose();
         }
     }
 }

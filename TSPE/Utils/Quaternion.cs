@@ -1,6 +1,7 @@
 ﻿namespace TSPE.Utils
 {
     using System;
+    using JetBrains.Annotations;
 
     public struct Quaternion
     {
@@ -13,11 +14,19 @@
             Direction = direction;
         }
 
+        [Pure]
         public Quaternion Scale(double scalar)
         {
             return new Quaternion(W * scalar, Direction.Scale(scalar));
         }
 
+        [Pure]
+        public Quaternion Flip()
+        {
+            return new Quaternion(W, Direction.Flip());
+        }
+
+        [Pure]
         public double Length()
         {
             return Math.Sqrt(
@@ -28,16 +37,13 @@
             );
         }
 
+        [Pure]
         public Quaternion Normalize()
         {
             return Scale(1 / Length());
         }
 
-        public Quaternion Flip()
-        {
-            return new Quaternion(W, Direction.Scale(-1));
-        }
-
+        [Pure]
         public Quaternion Transform(Quaternion quaternion)
         {
             return new Quaternion(
