@@ -4,8 +4,8 @@
 
     public struct Quaternion
     {
-        public Double W;
-        public Vector Direction;
+        public readonly double W;
+        public readonly Vector Direction;
 
         public Quaternion(double w, Vector direction)
         {

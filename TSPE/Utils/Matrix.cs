@@ -2,9 +2,9 @@
 {
     public struct Matrix
     {
-        public Vector U;
-        public Vector V;
-        public Vector W;
+        public readonly Vector U;
+        public readonly Vector V;
+        public readonly Vector W;
 
         public Matrix(Vector u, Vector v, Vector w)
         {
