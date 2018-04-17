@@ -40,12 +40,12 @@
         [Pure]
         public Vector AngularAccelerationToTorque(Vector angularAcceleration)
         {
-            Quaternion tensorRotation = Rigidbody.Rotation.Transform(
+            Quaternion rotation = Rigidbody.PhysicsState.Rotation.Transform(
                 InertiaTensorRotation
             );
 
-            return tensorRotation.Transform(
-                tensorRotation.Inverse().Transform(
+            return rotation.Transform(
+                rotation.Inverse().Transform(
                     angularAcceleration
                 ) * InertiaTensor
             );
@@ -54,12 +54,12 @@
         [Pure]
         public Vector TorqueToAngularAcceleration(Vector torque)
         {
-            Quaternion tensorRotation = Rigidbody.Rotation.Transform(
+            Quaternion rotation = Rigidbody.PhysicsState.Rotation.Transform(
                 InertiaTensorRotation
             );
 
-            return tensorRotation.Transform(
-                tensorRotation.Inverse().Transform(
+            return rotation.Transform(
+                rotation.Inverse().Transform(
                     torque
                 ) / InertiaTensor
             );
