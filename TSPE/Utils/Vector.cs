@@ -16,44 +16,44 @@
             Z = z;
         }
 
-        [Pure]
-        public Vector Add(Vector vector)
+        public static Vector operator +(Vector a)
         {
-            return new Vector(
-                X + vector.X,
-                Y + vector.Y,
-                Z + vector.Z
-            );
+            return new Vector(a.X, a.Y, a.Z);
         }
 
-        [Pure]
-        public Vector Scale(double scalar)
+        public static Vector operator +(Vector a, Vector b)
         {
-            return new Vector(
-                X * scalar,
-                Y * scalar,
-                Z * scalar
-            );
+            return new Vector(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
         }
 
-        [Pure]
-        public Vector Flip()
+        public static Vector operator -(Vector a)
         {
-            return new Vector(
-                -X,
-                -Y,
-                -Z
-            );
+            return new Vector(-a.X, -a.Y, -a.Z);
         }
 
-        [Pure]
-        public Vector Inverse()
+        public static Vector operator -(Vector a, Vector b)
         {
-            return new Vector(
-                1 / X,
-                1 / Y,
-                1 / Z
-            );
+            return new Vector(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+        }
+
+        public static Vector operator *(Vector a, double b)
+        {
+            return new Vector(a.X * b, a.Y * b, a.Z * b);
+        }
+
+        public static Vector operator *(double a, Vector b)
+        {
+            return new Vector(a * b.X, a * b.Y, a * b.Z);
+        }
+
+        public static Vector operator /(Vector a, double b)
+        {
+            return new Vector(a.X / b, a.Y / b, a.Z / b);
+        }
+
+        public static Vector operator /(double a, Vector b)
+        {
+            return new Vector(a / b.X, a / b.Y, a / b.Z);
         }
 
         [Pure]
@@ -65,7 +65,7 @@
         [Pure]
         public Vector Normalize()
         {
-            return Scale(1 / Length());
+            return this / Length();
         }
 
         [Pure]

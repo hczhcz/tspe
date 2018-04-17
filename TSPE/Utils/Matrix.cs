@@ -16,26 +16,6 @@
         }
 
         [Pure]
-        public Matrix Add(Matrix matrix)
-        {
-            return new Matrix(
-                U.Add(matrix.U),
-                V.Add(matrix.V),
-                W.Add(matrix.W)
-            );
-        }
-
-        [Pure]
-        public Matrix Scale(double scalar)
-        {
-            return new Matrix(
-                U.Scale(scalar),
-                V.Scale(scalar),
-                W.Scale(scalar)
-            );
-        }
-
-        [Pure]
         public Matrix Transpose()
         {
             return new Matrix(
@@ -54,17 +34,18 @@
         [Pure]
         public Matrix Inverse()
         {
-            Matrix t = Transpose();
+            Matrix transpose = Transpose();
+            double determinant = Determinant();
 
             return new Matrix(
-                t.V.Cross(t.W),
-                t.W.Cross(t.U),
-                t.U.Cross(t.V)
-            ).Transpose().Scale(1 / Determinant());
+                transpose.V.Cross(transpose.W) / determinant,
+                transpose.W.Cross(transpose.U) / determinant,
+                transpose.U.Cross(transpose.V) / determinant
+            ).Transpose();
         }
 
         [Pure]
-        public Vector Apply(Vector vector)
+        public Vector Transform(Vector vector)
         {
             return new Vector(
                 U.Dot(vector),
@@ -76,12 +57,12 @@
         [Pure]
         public Matrix Transform(Matrix matrix)
         {
-            Matrix tMatrix = matrix.Transpose();
+            Matrix transpose = matrix.Transpose();
 
             return new Matrix(
-                Apply(tMatrix.U),
-                Apply(tMatrix.V),
-                Apply(tMatrix.W)
+                Transform(transpose.U),
+                Transform(transpose.V),
+                Transform(transpose.W)
             ).Transpose();
         }
     }
