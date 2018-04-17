@@ -47,11 +47,7 @@
         [Pure]
         public Vector Transform(Vector vector)
         {
-            return new Vector(
-                U.Dot(vector),
-                V.Dot(vector),
-                W.Dot(vector)
-            );
+            return new Vector(U.Dot(vector), V.Dot(vector), W.Dot(vector));
         }
 
         [Pure]

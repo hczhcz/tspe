@@ -40,6 +40,12 @@
         }
 
         [Pure]
+        public Vector Transform(Vector vector)
+        {
+            return Direction.Cross(vector) + vector * W;
+        }
+
+        [Pure]
         public Quaternion Transform(Quaternion quaternion)
         {
             return new Quaternion(
