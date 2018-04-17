@@ -46,6 +46,11 @@
             return new Vector(a * b.X, a * b.Y, a * b.Z);
         }
 
+        public static Vector operator *(Vector a, Vector b)
+        {
+            return new Vector(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
+        }
+
         public static Vector operator /(Vector a, double b)
         {
             return new Vector(a.X / b, a.Y / b, a.Z / b);
@@ -54,6 +59,11 @@
         public static Vector operator /(double a, Vector b)
         {
             return new Vector(a / b.X, a / b.Y, a / b.Z);
+        }
+
+        public static Vector operator /(Vector a, Vector b)
+        {
+            return new Vector(a.X / b.X, a.Y / b.Y, a.Z / b.Z);
         }
 
         [Pure]
