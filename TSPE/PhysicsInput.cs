@@ -37,7 +37,7 @@
 
         public void AddForceAtPosition(Vector vector, Vector position)
         {
-            Vector localPosition = position - Rigidbody.PhysicsState.Position;
+            Vector localPosition = Rigidbody.ToLocalPosition(position);
 
             AddAcceleration(vector, true);
             AddAngularAcceleration(localPosition.Cross(vector), true);
@@ -59,7 +59,7 @@
 
         public void AddImpulseAtPosition(Vector vector, Vector position)
         {
-            Vector localPosition = position - Rigidbody.PhysicsState.Position;
+            Vector localPosition = Rigidbody.ToLocalPosition(position);
 
             AddVelocity(vector, true);
             AddAngularVelocity(localPosition.Cross(vector), true);
