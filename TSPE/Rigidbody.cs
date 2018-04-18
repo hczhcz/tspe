@@ -87,7 +87,7 @@
 
         public void Simulate()
         {
-            PhysicsState.Simulate(PhysicsInput, 1.0 / 60); // TODO
+            PhysicsState.Simulate(PhysicsInput, 1.0 / 50); // TODO
             PhysicsInput = new PhysicsInput(this);
         }
     }
