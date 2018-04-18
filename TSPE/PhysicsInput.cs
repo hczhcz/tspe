@@ -35,12 +35,17 @@
                 : vector;
         }
 
-        public void AddForceAtPosition(Vector vector, Vector position)
+        public void AddAccelerationAtPosition(Vector vector, Vector position, bool force)
         {
             Vector localPosition = Rigidbody.ToLocalPosition(position);
 
-            AddAcceleration(vector, true);
-            AddAngularAcceleration(localPosition.Cross(vector), true);
+            AddAcceleration(vector, force);
+            AddAngularAcceleration(
+                force
+                    ? localPosition.Cross(vector)
+                    : localPosition.Cross(Rigidbody.Inertia.AccelerationToForce(vector)),
+                true
+            );
         }
 
         public void AddVelocity(Vector vector, bool impulse)
@@ -57,12 +62,17 @@
                 : vector;
         }
 
-        public void AddImpulseAtPosition(Vector vector, Vector position)
+        public void AddVelocityAtPosition(Vector vector, Vector position, bool force)
         {
             Vector localPosition = Rigidbody.ToLocalPosition(position);
 
-            AddVelocity(vector, true);
-            AddAngularVelocity(localPosition.Cross(vector), true);
+            AddVelocity(vector, force);
+            AddAngularVelocity(
+                force
+                    ? localPosition.Cross(vector)
+                    : localPosition.Cross(Rigidbody.Inertia.AccelerationToForce(vector)),
+                true
+            );
         }
     }
 }
