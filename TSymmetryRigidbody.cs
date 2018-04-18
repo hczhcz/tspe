@@ -82,8 +82,6 @@ public class TSymmetryRigidbody : MonoBehaviour
         transform.rotation = Convert(tsRigidbody.PhysicsState.Rotation);
     }
 
-
-
     public void AddForce(Vector3 force, ForceMode forceMode = ForceMode.Force)
     {
         TSVector vector = Convert(force);

@@ -10,6 +10,8 @@
         public PhysicsInput PhysicsInput;
         public PhysicsState PhysicsState;
 
+        public double TimeDelta = 0.02;
+
         // TODO: constraints
 
         public Rigidbody(
@@ -87,7 +89,7 @@
 
         public void Simulate()
         {
-            PhysicsState.Simulate(PhysicsInput, 1.0 / 50); // TODO
+            PhysicsState.Simulate(PhysicsInput, TimeDelta);
             PhysicsInput = new PhysicsInput(this);
         }
     }

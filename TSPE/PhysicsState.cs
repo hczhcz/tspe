@@ -27,15 +27,15 @@
             Rotation = rotation;
         }
 
-        public void Simulate(PhysicsInput physicsInput, double time)
+        public void Simulate(PhysicsInput physicsInput, double timeDelta)
         {
-            Position += Velocity * (0.5 * time);
-            Velocity += physicsInput.Velocity + physicsInput.Acceleration * time;
-            Position += Velocity * (0.5 * time);
+            Position += Velocity * (0.5 * timeDelta);
+            Velocity += physicsInput.Velocity + physicsInput.Acceleration * timeDelta;
+            Position += Velocity * (0.5 * timeDelta);
 
-            Vector delta = AngularVelocity * (0.25 * time);
-            AngularVelocity += physicsInput.AngularVelocity + physicsInput.AngularAcceleration * time;
-            delta += AngularVelocity * (0.25 * time);
+            Vector delta = AngularVelocity * (0.25 * timeDelta);
+            AngularVelocity += physicsInput.AngularVelocity + physicsInput.AngularAcceleration * timeDelta;
+            delta += AngularVelocity * (0.25 * timeDelta);
             Rotation = new Quaternion(1, delta).Normalize().Transform(Rotation);
         }
     }
