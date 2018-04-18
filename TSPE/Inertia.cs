@@ -40,9 +40,7 @@
         [Pure]
         public Vector AngularAccelerationToTorque(Vector angularAcceleration)
         {
-            Quaternion rotation = Rigidbody.ToGlobalRotation(
-                InertiaTensorRotation
-            );
+            Quaternion rotation = Rigidbody.ToGlobalRotation(InertiaTensorRotation);
 
             return rotation.Transform(
                 rotation.Inverse().Transform(
@@ -54,9 +52,7 @@
         [Pure]
         public Vector TorqueToAngularAcceleration(Vector torque)
         {
-            Quaternion rotation = Rigidbody.ToGlobalRotation(
-                InertiaTensorRotation
-            );
+            Quaternion rotation = Rigidbody.ToGlobalRotation(InertiaTensorRotation);
 
             return rotation.Transform(
                 rotation.Inverse().Transform(

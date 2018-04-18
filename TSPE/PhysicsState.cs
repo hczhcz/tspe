@@ -30,20 +30,12 @@
         public void Simulate(PhysicsInput physicsInput, double time)
         {
             Position += Velocity * (0.5 * time);
-            Velocity += physicsInput.Velocity
-                + physicsInput.Acceleration * time;
+            Velocity += physicsInput.Velocity + physicsInput.Acceleration * time;
             Position += Velocity * (0.5 * time);
 
-            Rotation = Rotation.Transform(new Quaternion(
-                0,
-                AngularVelocity * (0.25 * time)
-            ));
-            AngularVelocity += physicsInput.AngularVelocity
-                + physicsInput.AngularAcceleration * time;
-            Rotation = Rotation.Transform(new Quaternion(
-                0,
-                AngularVelocity * (0.25 * time)
-            ));
+            Rotation = Rotation.Transform(new Quaternion(0, AngularVelocity * (0.25 * time)));
+            AngularVelocity += physicsInput.AngularVelocity + physicsInput.AngularAcceleration * time;
+            Rotation = Rotation.Transform(new Quaternion(0, AngularVelocity * (0.25 * time)));
         }
     }
 }

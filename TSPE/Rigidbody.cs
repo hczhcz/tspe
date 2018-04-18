@@ -7,24 +7,8 @@
         public readonly Manager Manager;
 
         public readonly Inertia Inertia;
-
-        protected PhysicsInput PhysicsInput;
-        protected PhysicsState PhysicsState;
-
-        public Vector Position
-        {
-            get
-            {
-                return PhysicsState.Position;
-            }
-        }
-        public Quaternion Rotation
-        {
-            get
-            {
-                return PhysicsState.Rotation;
-            }
-        }
+        public PhysicsInput PhysicsInput;
+        public PhysicsState PhysicsState;
 
         // TODO: constraints
 
