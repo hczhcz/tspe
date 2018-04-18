@@ -11,13 +11,32 @@
         protected PhysicsInput PhysicsInput;
         protected PhysicsState PhysicsState;
 
+        public Vector Position
+        {
+            get
+            {
+                return PhysicsState.Position;
+            }
+        }
+        public Quaternion Rotation
+        {
+            get
+            {
+                return PhysicsState.Rotation;
+            }
+        }
+
         // TODO: constraints
 
         public Rigidbody(
             Manager manager,
             double mass,
             Vector inertiaTensor,
-            Quaternion inertiaTensorRotation
+            Quaternion inertiaTensorRotation,
+            Vector velocity,
+            Vector position,
+            Vector angularVelocity,
+            Quaternion rotation
         )
         {
             Manager = manager;
@@ -29,9 +48,17 @@
                 inertiaTensorRotation
             );
 
-            PhysicsInput = new PhysicsInput(this);
+            PhysicsInput = new PhysicsInput(
+                this
+            );
 
-            PhysicsState = new PhysicsState(this);
+            PhysicsState = new PhysicsState(
+                this,
+                velocity,
+                position,
+                angularVelocity,
+                rotation
+            );
         }
 
         public Vector ToGlobalPosition(Vector position)
@@ -72,6 +99,12 @@
         public Vector ToLocalPoint(Vector point)
         {
             return ToLocalDirection(ToLocalPosition(point));
+        }
+
+        public void Simulate()
+        {
+            PhysicsState.Simulate(PhysicsInput, 1.0 / 60); // TODO
+            PhysicsInput = new PhysicsInput(this);
         }
     }
 }
