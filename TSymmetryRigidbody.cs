@@ -8,8 +8,8 @@ public class TSymmetryRigidbody : MonoBehaviour
 {
     private TSRigidbody tsRigidbody;
 
-    public float Mass;
-    public bool UseGravity; // TODO: implement
+    public float Mass = 1;
+    public bool UseGravity = true; // TODO: implement
     public bool IsKinematic; // TODO: implement
     public Vector3 InertiaTensor;
     public Quaternion InertiaTensorRotation;
@@ -91,16 +91,16 @@ public class TSymmetryRigidbody : MonoBehaviour
         switch (forceMode)
         {
             case ForceMode.Acceleration:
-                tsRigidbody.PhysicsInput.AddAcceleration(vector, false);
+                tsRigidbody.PhysicsInput.AddAcceleration(vector, false, false);
                 break;
             case ForceMode.Force:
-                tsRigidbody.PhysicsInput.AddAcceleration(vector, true);
+                tsRigidbody.PhysicsInput.AddAcceleration(vector, true, false);
                 break;
             case ForceMode.VelocityChange:
-                tsRigidbody.PhysicsInput.AddVelocity(vector, false);
+                tsRigidbody.PhysicsInput.AddVelocity(vector, false, false);
                 break;
             case ForceMode.Impulse:
-                tsRigidbody.PhysicsInput.AddVelocity(vector, true);
+                tsRigidbody.PhysicsInput.AddVelocity(vector, true, false);
                 break;
         }
     }
@@ -112,16 +112,16 @@ public class TSymmetryRigidbody : MonoBehaviour
         switch (forceMode)
         {
             case ForceMode.Acceleration:
-                tsRigidbody.PhysicsInput.AddAngularAcceleration(vector, false);
+                tsRigidbody.PhysicsInput.AddAngularAcceleration(vector, false, false);
                 break;
             case ForceMode.Force:
-                tsRigidbody.PhysicsInput.AddAngularAcceleration(vector, true);
+                tsRigidbody.PhysicsInput.AddAngularAcceleration(vector, true, false);
                 break;
             case ForceMode.VelocityChange:
-                tsRigidbody.PhysicsInput.AddAngularVelocity(vector, false);
+                tsRigidbody.PhysicsInput.AddAngularVelocity(vector, false, false);
                 break;
             case ForceMode.Impulse:
-                tsRigidbody.PhysicsInput.AddAngularVelocity(vector, true);
+                tsRigidbody.PhysicsInput.AddAngularVelocity(vector, true, false);
                 break;
         }
     }
@@ -134,58 +134,58 @@ public class TSymmetryRigidbody : MonoBehaviour
         switch (forceMode)
         {
             case ForceMode.Acceleration:
-                tsRigidbody.PhysicsInput.AddAccelerationAtPosition(vector, vectorPosition, false);
+                tsRigidbody.PhysicsInput.AddAccelerationAtPosition(vector, vectorPosition, false, false);
                 break;
             case ForceMode.Force:
-                tsRigidbody.PhysicsInput.AddAccelerationAtPosition(vector, vectorPosition, true);
+                tsRigidbody.PhysicsInput.AddAccelerationAtPosition(vector, vectorPosition, true, false);
                 break;
             case ForceMode.VelocityChange:
-                tsRigidbody.PhysicsInput.AddVelocityAtPosition(vector, vectorPosition, false);
+                tsRigidbody.PhysicsInput.AddVelocityAtPosition(vector, vectorPosition, false, false);
                 break;
             case ForceMode.Impulse:
-                tsRigidbody.PhysicsInput.AddVelocityAtPosition(vector, vectorPosition, true);
+                tsRigidbody.PhysicsInput.AddVelocityAtPosition(vector, vectorPosition, true, false);
                 break;
         }
     }
 
     public void AddRelativeForce(Vector3 force, ForceMode forceMode = ForceMode.Force)
     {
-        TSVector vector = tsRigidbody.ToGlobalDirection(Convert(force));
+        TSVector vector = Convert(force);
 
         switch (forceMode)
         {
             case ForceMode.Acceleration:
-                tsRigidbody.PhysicsInput.AddAcceleration(vector, false);
+                tsRigidbody.PhysicsInput.AddAcceleration(vector, false, true);
                 break;
             case ForceMode.Force:
-                tsRigidbody.PhysicsInput.AddAcceleration(vector, true);
+                tsRigidbody.PhysicsInput.AddAcceleration(vector, true, true);
                 break;
             case ForceMode.VelocityChange:
-                tsRigidbody.PhysicsInput.AddVelocity(vector, false);
+                tsRigidbody.PhysicsInput.AddVelocity(vector, false, true);
                 break;
             case ForceMode.Impulse:
-                tsRigidbody.PhysicsInput.AddVelocity(vector, true);
+                tsRigidbody.PhysicsInput.AddVelocity(vector, true, true);
                 break;
         }
     }
 
     public void AddRelativeTorque(Vector3 torque, ForceMode forceMode = ForceMode.Force)
     {
-        TSVector vector = tsRigidbody.ToGlobalDirection(Convert(torque));
+        TSVector vector = Convert(torque);
 
         switch (forceMode)
         {
             case ForceMode.Acceleration:
-                tsRigidbody.PhysicsInput.AddAngularAcceleration(vector, false);
+                tsRigidbody.PhysicsInput.AddAngularAcceleration(vector, false, true);
                 break;
             case ForceMode.Force:
-                tsRigidbody.PhysicsInput.AddAngularAcceleration(vector, true);
+                tsRigidbody.PhysicsInput.AddAngularAcceleration(vector, true, true);
                 break;
             case ForceMode.VelocityChange:
-                tsRigidbody.PhysicsInput.AddAngularVelocity(vector, false);
+                tsRigidbody.PhysicsInput.AddAngularVelocity(vector, false, true);
                 break;
             case ForceMode.Impulse:
-                tsRigidbody.PhysicsInput.AddAngularVelocity(vector, true);
+                tsRigidbody.PhysicsInput.AddAngularVelocity(vector, true, true);
                 break;
         }
     }

@@ -21,58 +21,100 @@
             AngularVelocity = new Vector();
         }
 
-        public void AddAcceleration(Vector vector, bool force)
+        public void AddAcceleration(Vector vector, bool force, bool local)
         {
-            Acceleration += force
-                ? Rigidbody.Inertia.ForceToAcceleration(vector)
-                : vector;
+            if (local)
+            {
+                vector = Rigidbody.ToGlobalDirection(vector);
+            }
+
+            if (force)
+            {
+                vector = Rigidbody.Inertia.ForceToAcceleration(vector);
+            }
+
+            Acceleration += vector;
         }
 
-        public void AddAngularAcceleration(Vector vector, bool force)
+        public void AddAngularAcceleration(Vector vector, bool force, bool local)
         {
-            AngularAcceleration += force
-                ? Rigidbody.Inertia.TorqueToAngularAcceleration(vector)
-                : vector;
+            if (!local)
+            {
+                vector = Rigidbody.ToLocalDirection(vector);
+            }
+
+            if (force)
+            {
+                vector = Rigidbody.Inertia.TorqueToAngularAcceleration(vector);
+            }
+
+            AngularAcceleration += vector;
         }
 
-        public void AddAccelerationAtPosition(Vector vector, Vector position, bool force)
+        public void AddAccelerationAtPosition(Vector vector, Vector position, bool force, bool local)
         {
-            Vector localPosition = Rigidbody.ToLocalPosition(position);
+            AddAcceleration(vector, force, local);
 
-            AddAcceleration(vector, force);
-            AddAngularAcceleration(
-                force
-                    ? localPosition.Cross(vector)
-                    : localPosition.Cross(Rigidbody.Inertia.AccelerationToForce(vector)),
-                true
-            );
+            if (!local)
+            {
+                vector = Rigidbody.ToLocalDirection(vector);
+                position = Rigidbody.ToLocalPosition(position);
+            }
+
+            if (!force)
+            {
+                vector = Rigidbody.Inertia.AccelerationToForce(vector);
+            }
+
+            AddAngularAcceleration(position.Cross(vector), true, true);
         }
 
-        public void AddVelocity(Vector vector, bool impulse)
+        public void AddVelocity(Vector vector, bool impulse, bool local)
         {
-            Velocity += impulse
-                ? Rigidbody.Inertia.ForceToAcceleration(vector)
-                : vector;
+            if (local)
+            {
+                vector = Rigidbody.ToGlobalDirection(vector);
+            }
+
+            if (impulse)
+            {
+                vector = Rigidbody.Inertia.ForceToAcceleration(vector);
+            }
+
+            Velocity += vector;
         }
 
-        public void AddAngularVelocity(Vector vector, bool impulse)
+        public void AddAngularVelocity(Vector vector, bool impulse, bool local)
         {
-            AngularVelocity += impulse
-                ? Rigidbody.Inertia.TorqueToAngularAcceleration(vector)
-                : vector;
+            if (!local)
+            {
+                vector = Rigidbody.ToLocalDirection(vector);
+            }
+
+            if (impulse)
+            {
+                vector = Rigidbody.Inertia.TorqueToAngularAcceleration(vector);
+            }
+
+            AngularVelocity += vector;
         }
 
-        public void AddVelocityAtPosition(Vector vector, Vector position, bool force)
+        public void AddVelocityAtPosition(Vector vector, Vector position, bool impulse, bool local)
         {
-            Vector localPosition = Rigidbody.ToLocalPosition(position);
+            AddVelocity(vector, impulse, local);
 
-            AddVelocity(vector, force);
-            AddAngularVelocity(
-                force
-                    ? localPosition.Cross(vector)
-                    : localPosition.Cross(Rigidbody.Inertia.AccelerationToForce(vector)),
-                true
-            );
+            if (!local)
+            {
+                vector = Rigidbody.ToLocalDirection(vector);
+                position = Rigidbody.ToLocalPosition(position);
+            }
+
+            if (!impulse)
+            {
+                vector = Rigidbody.Inertia.AccelerationToForce(vector);
+            }
+
+            AddAngularVelocity(position.Cross(vector), true, true);
         }
     }
 }

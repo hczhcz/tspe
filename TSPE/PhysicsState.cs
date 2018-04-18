@@ -33,9 +33,10 @@
             Velocity += physicsInput.Velocity + physicsInput.Acceleration * time;
             Position += Velocity * (0.5 * time);
 
-            Rotation = Rotation.Transform(new Quaternion(0, AngularVelocity * (0.25 * time)));
+            Vector delta = AngularVelocity * (0.25 * time);
             AngularVelocity += physicsInput.AngularVelocity + physicsInput.AngularAcceleration * time;
-            Rotation = Rotation.Transform(new Quaternion(0, AngularVelocity * (0.25 * time)));
+            delta += AngularVelocity * (0.25 * time);
+            Rotation = new Quaternion(1, delta).Normalize().Transform(Rotation);
         }
     }
 }
