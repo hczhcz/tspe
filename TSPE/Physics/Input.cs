@@ -25,7 +25,7 @@
         {
             if (local)
             {
-                vector = Rigidbody.ToGlobalDirection(vector);
+                vector = Rigidbody.State.ToGlobalDirection(vector);
             }
 
             if (force)
@@ -40,7 +40,7 @@
         {
             if (!local)
             {
-                vector = Rigidbody.ToLocalDirection(vector);
+                vector = Rigidbody.State.ToLocalDirection(vector);
             }
 
             if (force)
@@ -57,8 +57,8 @@
 
             if (!local)
             {
-                vector = Rigidbody.ToLocalDirection(vector);
-                position = Rigidbody.ToLocalPoint(position);
+                vector = Rigidbody.State.ToLocalDirection(vector);
+                position = Rigidbody.State.ToLocalPoint(position);
             }
 
             if (!force)
@@ -73,7 +73,7 @@
         {
             if (local)
             {
-                vector = Rigidbody.ToGlobalDirection(vector);
+                vector = Rigidbody.State.ToGlobalDirection(vector);
             }
 
             if (impulse)
@@ -88,7 +88,7 @@
         {
             if (!local)
             {
-                vector = Rigidbody.ToLocalDirection(vector);
+                vector = Rigidbody.State.ToLocalDirection(vector);
             }
 
             if (impulse)
@@ -105,8 +105,8 @@
 
             if (!local)
             {
-                vector = Rigidbody.ToLocalDirection(vector);
-                position = Rigidbody.ToLocalPoint(position);
+                vector = Rigidbody.State.ToLocalDirection(vector);
+                position = Rigidbody.State.ToLocalPoint(position);
             }
 
             if (!impulse)

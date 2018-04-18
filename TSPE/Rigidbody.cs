@@ -48,46 +48,6 @@
             );
         }
 
-        public Vector ToGlobalPosition(Vector position)
-        {
-            return position + State.Position;
-        }
-
-        public Vector ToGlobalDirection(Vector direction)
-        {
-            return State.Rotation.Transform(direction);
-        }
-
-        public Quaternion ToGlobalRotation(Quaternion rotation)
-        {
-            return State.Rotation.Transform(rotation);
-        }
-
-        public Vector ToGlobalPoint(Vector point)
-        {
-            return ToGlobalPosition(ToGlobalDirection(point));
-        }
-
-        public Vector ToLocalPosition(Vector position)
-        {
-            return position - State.Position;
-        }
-
-        public Vector ToLocalDirection(Vector direction)
-        {
-            return State.Rotation.Inverse().Transform(direction);
-        }
-
-        public Quaternion ToLocalRotation(Quaternion rotation)
-        {
-            return State.Rotation.Inverse().Transform(rotation);
-        }
-
-        public Vector ToLocalPoint(Vector point)
-        {
-            return ToLocalDirection(ToLocalPosition(point));
-        }
-
         public void Simulate()
         {
             State.Simulate(Input, TimeDelta);
