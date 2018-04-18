@@ -58,7 +58,7 @@
             if (!local)
             {
                 vector = Rigidbody.ToLocalDirection(vector);
-                position = Rigidbody.ToLocalPosition(position);
+                position = Rigidbody.ToLocalPoint(position);
             }
 
             if (!force)
@@ -106,7 +106,7 @@
             if (!local)
             {
                 vector = Rigidbody.ToLocalDirection(vector);
-                position = Rigidbody.ToLocalPosition(position);
+                position = Rigidbody.ToLocalPoint(position);
             }
 
             if (!impulse)
