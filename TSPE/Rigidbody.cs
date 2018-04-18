@@ -1,14 +1,15 @@
 ﻿namespace TSPE
 {
     using TSPE.Utils;
+    using TSPE.Physics;
 
     public class Rigidbody
     {
         public readonly Manager Manager;
 
         public readonly Inertia Inertia;
-        public PhysicsInput PhysicsInput;
-        public PhysicsState PhysicsState;
+        public Input Input;
+        public State State;
 
         public double TimeDelta = 0.02;
 
@@ -34,11 +35,11 @@
                 inertiaTensorRotation
             );
 
-            PhysicsInput = new PhysicsInput(
+            Input = new Input(
                 this
             );
 
-            PhysicsState = new PhysicsState(
+            State = new State(
                 this,
                 velocity,
                 position,
@@ -49,17 +50,17 @@
 
         public Vector ToGlobalPosition(Vector position)
         {
-            return position + PhysicsState.Position;
+            return position + State.Position;
         }
 
         public Vector ToGlobalDirection(Vector direction)
         {
-            return PhysicsState.Rotation.Transform(direction);
+            return State.Rotation.Transform(direction);
         }
 
         public Quaternion ToGlobalRotation(Quaternion rotation)
         {
-            return PhysicsState.Rotation.Transform(rotation);
+            return State.Rotation.Transform(rotation);
         }
 
         public Vector ToGlobalPoint(Vector point)
@@ -69,17 +70,17 @@
 
         public Vector ToLocalPosition(Vector position)
         {
-            return position - PhysicsState.Position;
+            return position - State.Position;
         }
 
         public Vector ToLocalDirection(Vector direction)
         {
-            return PhysicsState.Rotation.Inverse().Transform(direction);
+            return State.Rotation.Inverse().Transform(direction);
         }
 
         public Quaternion ToLocalRotation(Quaternion rotation)
         {
-            return PhysicsState.Rotation.Inverse().Transform(rotation);
+            return State.Rotation.Inverse().Transform(rotation);
         }
 
         public Vector ToLocalPoint(Vector point)
@@ -89,8 +90,8 @@
 
         public void Simulate()
         {
-            PhysicsState.Simulate(PhysicsInput, TimeDelta);
-            PhysicsInput = new PhysicsInput(this);
+            State.Simulate(Input, TimeDelta);
+            Input = new Input(this);
         }
     }
 }

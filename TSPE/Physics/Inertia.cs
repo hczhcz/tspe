@@ -1,4 +1,4 @@
-﻿namespace TSPE
+﻿namespace TSPE.Physics
 {
     using JetBrains.Annotations;
     using TSPE.Utils;

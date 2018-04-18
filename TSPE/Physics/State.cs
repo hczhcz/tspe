@@ -1,8 +1,8 @@
-﻿namespace TSPE
+﻿namespace TSPE.Physics
 {
     using TSPE.Utils;
 
-    public struct PhysicsState
+    public struct State
     {
         public readonly Rigidbody Rigidbody;
 
@@ -11,7 +11,7 @@
         public Vector AngularVelocity;
         public Quaternion Rotation;
 
-        public PhysicsState(
+        public State(
             Rigidbody rigidbody,
             Vector velocity,
             Vector position,
@@ -27,14 +27,14 @@
             Rotation = rotation;
         }
 
-        public void Simulate(PhysicsInput physicsInput, double timeDelta)
+        public void Simulate(Input input, double timeDelta)
         {
             Position += Velocity * (0.5 * timeDelta);
-            Velocity += physicsInput.Velocity + physicsInput.Acceleration * timeDelta;
+            Velocity += input.Velocity + input.Acceleration * timeDelta;
             Position += Velocity * (0.5 * timeDelta);
 
             Vector delta = AngularVelocity * (0.25 * timeDelta);
-            AngularVelocity += physicsInput.AngularVelocity + physicsInput.AngularAcceleration * timeDelta;
+            AngularVelocity += input.AngularVelocity + input.AngularAcceleration * timeDelta;
             delta += AngularVelocity * (0.25 * timeDelta);
             Rotation = new Quaternion(1, delta).Normalize().Transform(Rotation);
         }

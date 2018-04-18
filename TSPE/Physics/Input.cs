@@ -1,8 +1,8 @@
-﻿namespace TSPE
+﻿namespace TSPE.Physics
 {
     using TSPE.Utils;
 
-    public struct PhysicsInput
+    public struct Input
     {
         public readonly Rigidbody Rigidbody;
 
@@ -11,7 +11,7 @@
         public Vector AngularAcceleration;
         public Vector AngularVelocity;
 
-        public PhysicsInput(Rigidbody rigidbody)
+        public Input(Rigidbody rigidbody)
         {
             Rigidbody = rigidbody;
 
