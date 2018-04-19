@@ -71,6 +71,12 @@
             return ToLocalDirection(ToLocalPosition(vector));
         }
 
+        public void Flip()
+        {
+            Velocity = -Velocity;
+            AngularVelocity = -AngularVelocity;
+        }
+
         public void Simulate(Input input, double timeDelta)
         {
             Position += Velocity * (0.5 * timeDelta);

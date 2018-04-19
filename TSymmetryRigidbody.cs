@@ -14,6 +14,38 @@ public class TSymmetryRigidbody : MonoBehaviour
     public Vector3 InertiaTensor;
     public Quaternion InertiaTensorRotation;
 
+    public Vector3 Velocity
+    {
+        get
+        {
+            return Convert(entity.State.Velocity);
+        }
+    }
+
+    public Vector3 Position
+    {
+        get
+        {
+            return Convert(entity.State.Position);
+        }
+    }
+
+    public Vector3 AngularVelocity
+    {
+        get
+        {
+            return Convert(entity.State.AngularVelocity);
+        }
+    }
+
+    public Quaternion Rotation
+    {
+        get
+        {
+            return Convert(entity.State.Rotation);
+        }
+    }
+
     private TSVector Convert(Vector3 vector)
     {
         return new TSVector(vector.x, vector.y, vector.z);
@@ -80,6 +112,11 @@ public class TSymmetryRigidbody : MonoBehaviour
         // TODO: create an abstraction layer on entity?
         transform.position = Convert(entity.State.Position);
         transform.rotation = Convert(entity.State.Rotation);
+    }
+
+    public void Flip()
+    {
+        entity.State.Flip();
     }
 
     public void AddForce(Vector3 force, ForceMode forceMode = ForceMode.Force)
