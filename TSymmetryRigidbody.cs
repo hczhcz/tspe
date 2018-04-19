@@ -81,7 +81,6 @@ public class TSymmetryRigidbody : MonoBehaviour
     void Reset()
     {
         entity = new TSEntity(
-            null, // TODO
             Mass,
             Convert(InertiaTensor),
             Convert(InertiaTensorRotation),
@@ -112,6 +111,10 @@ public class TSymmetryRigidbody : MonoBehaviour
         // TODO: create an abstraction layer on entity?
         transform.position = Convert(entity.State.Position);
         transform.rotation = Convert(entity.State.Rotation);
+
+        // TODO: switch between states, handle collision, etc.
+
+        entity.Prepare(); // note: for the next frame
     }
 
     public void Flip()

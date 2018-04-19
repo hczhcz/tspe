@@ -23,7 +23,6 @@
         )
         {
             Entity entity = new Entity(
-                this,
                 mass,
                 inertiaTensor,
                 inertiaTensorRotation,
@@ -32,6 +31,9 @@
                 angularVelocity,
                 rotation
             );
+
+            // TODO: pay attention to updating order
+            entities.Insert(entities.Count, entity);
         }
     }
 }
