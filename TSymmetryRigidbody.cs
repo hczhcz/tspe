@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-using TSRigidbody = TSPE.Rigidbody;
+using TSEntity = TSPE.Entity;
 using TSVector = TSPE.Utils.Vector;
 using TSQuaternion = TSPE.Utils.Quaternion;
 
 public class TSymmetryRigidbody : MonoBehaviour
 {
-    private TSRigidbody tsRigidbody;
+    private TSEntity entity;
 
     public float Mass = 1;
     public bool UseGravity = true; // TODO: implement
@@ -48,7 +48,7 @@ public class TSymmetryRigidbody : MonoBehaviour
 
     void Reset()
     {
-        tsRigidbody = new TSRigidbody(
+        entity = new TSEntity(
             null, // TODO
             Mass,
             Convert(InertiaTensor),
@@ -76,10 +76,10 @@ public class TSymmetryRigidbody : MonoBehaviour
 
     void FixedUpdate()
     {
-        tsRigidbody.Simulate();
-        // TODO: create an abstraction layer on tsRigidbody?
-        transform.position = Convert(tsRigidbody.State.Position);
-        transform.rotation = Convert(tsRigidbody.State.Rotation);
+        entity.Simulate();
+        // TODO: create an abstraction layer on entity?
+        transform.position = Convert(entity.State.Position);
+        transform.rotation = Convert(entity.State.Rotation);
     }
 
     public void AddForce(Vector3 force, ForceMode forceMode = ForceMode.Force)
@@ -89,16 +89,16 @@ public class TSymmetryRigidbody : MonoBehaviour
         switch (forceMode)
         {
             case ForceMode.Acceleration:
-                tsRigidbody.Input.AddAcceleration(vector, false, false);
+                entity.Input.AddAcceleration(vector, false, false);
                 break;
             case ForceMode.Force:
-                tsRigidbody.Input.AddAcceleration(vector, true, false);
+                entity.Input.AddAcceleration(vector, true, false);
                 break;
             case ForceMode.VelocityChange:
-                tsRigidbody.Input.AddVelocity(vector, false, false);
+                entity.Input.AddVelocity(vector, false, false);
                 break;
             case ForceMode.Impulse:
-                tsRigidbody.Input.AddVelocity(vector, true, false);
+                entity.Input.AddVelocity(vector, true, false);
                 break;
         }
     }
@@ -110,16 +110,16 @@ public class TSymmetryRigidbody : MonoBehaviour
         switch (forceMode)
         {
             case ForceMode.Acceleration:
-                tsRigidbody.Input.AddAngularAcceleration(vector, false, false);
+                entity.Input.AddAngularAcceleration(vector, false, false);
                 break;
             case ForceMode.Force:
-                tsRigidbody.Input.AddAngularAcceleration(vector, true, false);
+                entity.Input.AddAngularAcceleration(vector, true, false);
                 break;
             case ForceMode.VelocityChange:
-                tsRigidbody.Input.AddAngularVelocity(vector, false, false);
+                entity.Input.AddAngularVelocity(vector, false, false);
                 break;
             case ForceMode.Impulse:
-                tsRigidbody.Input.AddAngularVelocity(vector, true, false);
+                entity.Input.AddAngularVelocity(vector, true, false);
                 break;
         }
     }
@@ -132,16 +132,16 @@ public class TSymmetryRigidbody : MonoBehaviour
         switch (forceMode)
         {
             case ForceMode.Acceleration:
-                tsRigidbody.Input.AddAccelerationAtPosition(vector, vectorPosition, false, false);
+                entity.Input.AddAccelerationAtPosition(vector, vectorPosition, false, false);
                 break;
             case ForceMode.Force:
-                tsRigidbody.Input.AddAccelerationAtPosition(vector, vectorPosition, true, false);
+                entity.Input.AddAccelerationAtPosition(vector, vectorPosition, true, false);
                 break;
             case ForceMode.VelocityChange:
-                tsRigidbody.Input.AddVelocityAtPosition(vector, vectorPosition, false, false);
+                entity.Input.AddVelocityAtPosition(vector, vectorPosition, false, false);
                 break;
             case ForceMode.Impulse:
-                tsRigidbody.Input.AddVelocityAtPosition(vector, vectorPosition, true, false);
+                entity.Input.AddVelocityAtPosition(vector, vectorPosition, true, false);
                 break;
         }
     }
@@ -153,16 +153,16 @@ public class TSymmetryRigidbody : MonoBehaviour
         switch (forceMode)
         {
             case ForceMode.Acceleration:
-                tsRigidbody.Input.AddAcceleration(vector, false, true);
+                entity.Input.AddAcceleration(vector, false, true);
                 break;
             case ForceMode.Force:
-                tsRigidbody.Input.AddAcceleration(vector, true, true);
+                entity.Input.AddAcceleration(vector, true, true);
                 break;
             case ForceMode.VelocityChange:
-                tsRigidbody.Input.AddVelocity(vector, false, true);
+                entity.Input.AddVelocity(vector, false, true);
                 break;
             case ForceMode.Impulse:
-                tsRigidbody.Input.AddVelocity(vector, true, true);
+                entity.Input.AddVelocity(vector, true, true);
                 break;
         }
     }
@@ -174,16 +174,16 @@ public class TSymmetryRigidbody : MonoBehaviour
         switch (forceMode)
         {
             case ForceMode.Acceleration:
-                tsRigidbody.Input.AddAngularAcceleration(vector, false, true);
+                entity.Input.AddAngularAcceleration(vector, false, true);
                 break;
             case ForceMode.Force:
-                tsRigidbody.Input.AddAngularAcceleration(vector, true, true);
+                entity.Input.AddAngularAcceleration(vector, true, true);
                 break;
             case ForceMode.VelocityChange:
-                tsRigidbody.Input.AddAngularVelocity(vector, false, true);
+                entity.Input.AddAngularVelocity(vector, false, true);
                 break;
             case ForceMode.Impulse:
-                tsRigidbody.Input.AddAngularVelocity(vector, true, true);
+                entity.Input.AddAngularVelocity(vector, true, true);
                 break;
         }
     }

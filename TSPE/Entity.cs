@@ -3,7 +3,7 @@
     using TSPE.Utils;
     using TSPE.Physics;
 
-    public class Rigidbody
+    public class Entity
     {
         public readonly Manager Manager;
 
@@ -15,7 +15,7 @@
 
         // TODO: constraints
 
-        public Rigidbody(
+        public Entity(
             Manager manager,
             double mass,
             Vector inertiaTensor,
@@ -39,7 +39,6 @@
             );
 
             State = new State(
-                this,
                 velocity,
                 position,
                 angularVelocity,

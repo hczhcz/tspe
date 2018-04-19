@@ -5,23 +5,18 @@
 
     public class State
     {
-        private readonly Rigidbody rigidbody;
-
         public Vector Velocity { get; private set; }
         public Vector Position { get; private set; }
         public Vector AngularVelocity { get; private set; }
         public Quaternion Rotation { get; private set; }
 
         public State(
-            Rigidbody rigidbody,
             Vector velocity,
             Vector position,
             Vector angularVelocity,
             Quaternion rotation
         )
         {
-            this.rigidbody = rigidbody;
-
             Velocity = velocity;
             Position = position;
             AngularVelocity = angularVelocity;

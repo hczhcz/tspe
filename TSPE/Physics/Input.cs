@@ -4,28 +4,28 @@
 
     public class Input
     {
-        private readonly Rigidbody rigidbody;
+        private readonly Entity entity;
 
         public Vector Acceleration { get; private set; }
         public Vector Velocity { get; private set; }
         public Vector AngularAcceleration { get; private set; }
         public Vector AngularVelocity { get; private set; }
 
-        public Input(Rigidbody rigidbody)
+        public Input(Entity entity)
         {
-            this.rigidbody = rigidbody;
+            this.entity = entity;
         }
 
         public void AddAcceleration(Vector vector, bool force, bool local)
         {
             if (local)
             {
-                vector = rigidbody.State.ToGlobalDirection(vector);
+                vector = entity.State.ToGlobalDirection(vector);
             }
 
             if (force)
             {
-                vector = rigidbody.Inertia.ForceToAcceleration(vector);
+                vector = entity.Inertia.ForceToAcceleration(vector);
             }
 
             Acceleration += vector;
@@ -35,12 +35,12 @@
         {
             if (!local)
             {
-                vector = rigidbody.State.ToLocalDirection(vector);
+                vector = entity.State.ToLocalDirection(vector);
             }
 
             if (force)
             {
-                vector = rigidbody.Inertia.TorqueToAngularAcceleration(vector);
+                vector = entity.Inertia.TorqueToAngularAcceleration(vector);
             }
 
             AngularAcceleration += vector;
@@ -52,13 +52,13 @@
 
             if (!local)
             {
-                vector = rigidbody.State.ToLocalDirection(vector);
-                position = rigidbody.State.ToLocalPoint(position);
+                vector = entity.State.ToLocalDirection(vector);
+                position = entity.State.ToLocalPoint(position);
             }
 
             if (!force)
             {
-                vector = rigidbody.Inertia.AccelerationToForce(vector);
+                vector = entity.Inertia.AccelerationToForce(vector);
             }
 
             AddAngularAcceleration(position.Cross(vector), true, true);
@@ -68,12 +68,12 @@
         {
             if (local)
             {
-                vector = rigidbody.State.ToGlobalDirection(vector);
+                vector = entity.State.ToGlobalDirection(vector);
             }
 
             if (impulse)
             {
-                vector = rigidbody.Inertia.ForceToAcceleration(vector);
+                vector = entity.Inertia.ForceToAcceleration(vector);
             }
 
             Velocity += vector;
@@ -83,12 +83,12 @@
         {
             if (!local)
             {
-                vector = rigidbody.State.ToLocalDirection(vector);
+                vector = entity.State.ToLocalDirection(vector);
             }
 
             if (impulse)
             {
-                vector = rigidbody.Inertia.TorqueToAngularAcceleration(vector);
+                vector = entity.Inertia.TorqueToAngularAcceleration(vector);
             }
 
             AngularVelocity += vector;
@@ -100,13 +100,13 @@
 
             if (!local)
             {
-                vector = rigidbody.State.ToLocalDirection(vector);
-                position = rigidbody.State.ToLocalPoint(position);
+                vector = entity.State.ToLocalDirection(vector);
+                position = entity.State.ToLocalPoint(position);
             }
 
             if (!impulse)
             {
-                vector = rigidbody.Inertia.AccelerationToForce(vector);
+                vector = entity.Inertia.AccelerationToForce(vector);
             }
 
             AddAngularVelocity(position.Cross(vector), true, true);
