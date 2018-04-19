@@ -5,7 +5,6 @@
 
     public class Entity
     {
-        public readonly Manager Manager;
 
         public readonly Inertia Inertia;
         public Input Input { get; private set; }
@@ -16,7 +15,6 @@
         // TODO: constraints
 
         public Entity(
-            Manager manager,
             double mass,
             Vector inertiaTensor,
             Quaternion inertiaTensorRotation,
@@ -26,8 +24,6 @@
             Quaternion rotation
         )
         {
-            Manager = manager;
-
             Inertia = new Inertia(
                 mass,
                 inertiaTensor,
