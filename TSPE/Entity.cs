@@ -9,9 +9,9 @@
 
         public readonly Inertia Inertia;
         public Input Input { get; private set; }
-        public State State { get; private set; }
 
-        public double TimeDelta = 0.02;
+        public Time Time { get; private set; }
+        public State State { get; private set; }
 
         // TODO: constraints
 
@@ -38,6 +38,7 @@
                 this
             );
 
+            Time = new Time();
             State = new State(
                 velocity,
                 position,
@@ -48,7 +49,7 @@
 
         public void Simulate()
         {
-            State.Simulate(Input, TimeDelta);
+            State.Simulate(Input, Time);
             Input = new Input(this);
         }
     }

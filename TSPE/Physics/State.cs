@@ -77,8 +77,10 @@
             AngularVelocity = -AngularVelocity;
         }
 
-        public void Simulate(Input input, double timeDelta)
+        public void Simulate(Input input, Time time)
         {
+            double timeDelta = time.Step();
+
             Position += Velocity * (0.5 * timeDelta);
             Velocity += input.Velocity + input.Acceleration * timeDelta;
             Position += Velocity * (0.5 * timeDelta);
