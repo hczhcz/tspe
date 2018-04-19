@@ -1,15 +1,16 @@
 ﻿namespace TSPE.Physics
 {
+    using JetBrains.Annotations;
     using TSPE.Utils;
 
-    public struct State
+    public class State
     {
-        public readonly Rigidbody Rigidbody;
+        private readonly Rigidbody rigidbody;
 
-        public Vector Velocity;
-        public Vector Position;
-        public Vector AngularVelocity;
-        public Quaternion Rotation;
+        public Vector Velocity { get; private set; }
+        public Vector Position { get; private set; }
+        public Vector AngularVelocity { get; private set; }
+        public Quaternion Rotation { get; private set; }
 
         public State(
             Rigidbody rigidbody,
@@ -19,7 +20,7 @@
             Quaternion rotation
         )
         {
-            Rigidbody = rigidbody;
+            this.rigidbody = rigidbody;
 
             Velocity = velocity;
             Position = position;
@@ -27,41 +28,49 @@
             Rotation = rotation;
         }
 
+        [Pure]
         public Vector ToGlobalPosition(Vector vector)
         {
             return vector + Position;
         }
 
+        [Pure]
         public Vector ToGlobalDirection(Vector vector)
         {
             return Rotation.Transform(vector);
         }
 
+        [Pure]
         public Quaternion ToGlobalRotation(Quaternion quaternion)
         {
             return Rotation.Transform(quaternion);
         }
 
+        [Pure]
         public Vector ToGlobalPoint(Vector vector)
         {
             return ToGlobalPosition(ToGlobalDirection(vector));
         }
 
+        [Pure]
         public Vector ToLocalPosition(Vector vector)
         {
             return vector - Position;
         }
 
+        [Pure]
         public Vector ToLocalDirection(Vector vector)
         {
             return Rotation.Inverse().Transform(vector);
         }
 
+        [Pure]
         public Quaternion ToLocalRotation(Quaternion quaternion)
         {
             return Rotation.Inverse().Transform(quaternion);
         }
 
+        [Pure]
         public Vector ToLocalPoint(Vector vector)
         {
             return ToLocalDirection(ToLocalPosition(vector));

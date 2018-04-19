@@ -8,8 +8,8 @@
         public readonly Manager Manager;
 
         public readonly Inertia Inertia;
-        public Input Input;
-        public State State;
+        public Input Input { get; private set; }
+        public State State { get; private set; }
 
         public double TimeDelta = 0.02;
 
@@ -29,7 +29,6 @@
             Manager = manager;
 
             Inertia = new Inertia(
-                this,
                 mass,
                 inertiaTensor,
                 inertiaTensorRotation

@@ -5,21 +5,16 @@
 
     public struct Inertia
     {
-        public readonly Rigidbody Rigidbody;
-
         public readonly double Mass;
         public readonly Vector InertiaTensor;
         public readonly Quaternion InertiaTensorRotation;
 
         public Inertia(
-            Rigidbody rigidbody,
             double mass,
             Vector inertiaTensor,
             Quaternion inertiaTensorRotation
         )
         {
-            Rigidbody = rigidbody;
-
             Mass = mass;
             InertiaTensor = inertiaTensor;
             InertiaTensorRotation = inertiaTensorRotation;

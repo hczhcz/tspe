@@ -2,35 +2,30 @@
 {
     using TSPE.Utils;
 
-    public struct Input
+    public class Input
     {
-        public readonly Rigidbody Rigidbody;
+        private readonly Rigidbody rigidbody;
 
-        public Vector Acceleration;
-        public Vector Velocity;
-        public Vector AngularAcceleration;
-        public Vector AngularVelocity;
+        public Vector Acceleration { get; private set; }
+        public Vector Velocity { get; private set; }
+        public Vector AngularAcceleration { get; private set; }
+        public Vector AngularVelocity { get; private set; }
 
         public Input(Rigidbody rigidbody)
         {
-            Rigidbody = rigidbody;
-
-            Acceleration = new Vector();
-            Velocity = new Vector();
-            AngularAcceleration = new Vector();
-            AngularVelocity = new Vector();
+            this.rigidbody = rigidbody;
         }
 
         public void AddAcceleration(Vector vector, bool force, bool local)
         {
             if (local)
             {
-                vector = Rigidbody.State.ToGlobalDirection(vector);
+                vector = rigidbody.State.ToGlobalDirection(vector);
             }
 
             if (force)
             {
-                vector = Rigidbody.Inertia.ForceToAcceleration(vector);
+                vector = rigidbody.Inertia.ForceToAcceleration(vector);
             }
 
             Acceleration += vector;
@@ -40,12 +35,12 @@
         {
             if (!local)
             {
-                vector = Rigidbody.State.ToLocalDirection(vector);
+                vector = rigidbody.State.ToLocalDirection(vector);
             }
 
             if (force)
             {
-                vector = Rigidbody.Inertia.TorqueToAngularAcceleration(vector);
+                vector = rigidbody.Inertia.TorqueToAngularAcceleration(vector);
             }
 
             AngularAcceleration += vector;
@@ -57,13 +52,13 @@
 
             if (!local)
             {
-                vector = Rigidbody.State.ToLocalDirection(vector);
-                position = Rigidbody.State.ToLocalPoint(position);
+                vector = rigidbody.State.ToLocalDirection(vector);
+                position = rigidbody.State.ToLocalPoint(position);
             }
 
             if (!force)
             {
-                vector = Rigidbody.Inertia.AccelerationToForce(vector);
+                vector = rigidbody.Inertia.AccelerationToForce(vector);
             }
 
             AddAngularAcceleration(position.Cross(vector), true, true);
@@ -73,12 +68,12 @@
         {
             if (local)
             {
-                vector = Rigidbody.State.ToGlobalDirection(vector);
+                vector = rigidbody.State.ToGlobalDirection(vector);
             }
 
             if (impulse)
             {
-                vector = Rigidbody.Inertia.ForceToAcceleration(vector);
+                vector = rigidbody.Inertia.ForceToAcceleration(vector);
             }
 
             Velocity += vector;
@@ -88,12 +83,12 @@
         {
             if (!local)
             {
-                vector = Rigidbody.State.ToLocalDirection(vector);
+                vector = rigidbody.State.ToLocalDirection(vector);
             }
 
             if (impulse)
             {
-                vector = Rigidbody.Inertia.TorqueToAngularAcceleration(vector);
+                vector = rigidbody.Inertia.TorqueToAngularAcceleration(vector);
             }
 
             AngularVelocity += vector;
@@ -105,13 +100,13 @@
 
             if (!local)
             {
-                vector = Rigidbody.State.ToLocalDirection(vector);
-                position = Rigidbody.State.ToLocalPoint(position);
+                vector = rigidbody.State.ToLocalDirection(vector);
+                position = rigidbody.State.ToLocalPoint(position);
             }
 
             if (!impulse)
             {
-                vector = Rigidbody.Inertia.AccelerationToForce(vector);
+                vector = rigidbody.Inertia.AccelerationToForce(vector);
             }
 
             AddAngularVelocity(position.Cross(vector), true, true);
