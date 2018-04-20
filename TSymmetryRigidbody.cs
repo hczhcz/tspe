@@ -79,51 +79,6 @@ public class TSymmetryRigidbody : MonoBehaviour
         );
     }
 
-    void Reset()
-    {
-        entity = new TSEntity(
-            Mass,
-            Convert(InertiaTensor),
-            Convert(InertiaTensorRotation),
-            Convert(Vector3.zero),
-            Convert(transform.position),
-            Convert(Vector3.zero),
-            Convert(transform.rotation)
-        );
-    }
-
-    void Start()
-    {
-        //Rigidbody rb = GetComponent<Rigidbody>();
-        //rb.Sleep();
-        //Debug.Log(rb.inertiaTensor.x);
-        //Debug.Log(rb.inertiaTensor.y);
-        //Debug.Log(rb.inertiaTensor.z); // 0.20875 .20875 .3025
-        //Debug.Log(rb.inertiaTensorRotation.w);
-        //Debug.Log(rb.inertiaTensorRotation.x);
-        //Debug.Log(rb.inertiaTensorRotation.y);
-        //Debug.Log(rb.inertiaTensorRotation.z); // 0 0 .3025 .9238796
-
-        Reset();
-    }
-
-    void FixedUpdate()
-    {
-        entity.Simulate();
-        // TODO: create an abstraction layer on entity?
-        transform.position = Convert(entity.State.Position);
-        transform.rotation = Convert(entity.State.Rotation);
-
-        // TODO: switch between states, handle collision, etc.
-
-        entity.Prepare(Mode); // note: for the next frame
-    }
-
-    public void Flip()
-    {
-        entity.Flip();
-    }
-
     public void AddForce(Vector3 force, ForceMode forceMode = ForceMode.Force)
     {
         TSVector vector = Convert(force);
@@ -230,8 +185,75 @@ public class TSymmetryRigidbody : MonoBehaviour
         }
     }
 
+    // TODO: implement these methods
     // public Vector3 GetPointVelocity(Vector3 worldPoint);
     // public Vector3 GetRelativePointVelocity(Vector3 relativePoint);
     // public bool SweepTest(Vector3 direction, out RaycastHit hitInfo, float maxDistance = Mathf.Infinity, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal);
     // public RaycastHit[] SweepTestAll(Vector3 direction, float maxDistance = Mathf.Infinity, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal);
+
+    public void Flip()
+    {
+        entity.Flip();
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision);
+        Debug.Log(collision.contacts);
+        Debug.Log(collision.contacts[0].point);
+        Debug.Log(collision.contacts[0].separation);
+        Debug.Log(collision.contacts[0].normal);
+        Debug.Log(collision.impulse);
+        Debug.Log(collision.relativeVelocity);
+
+        if (Mode == TSEntity.InputMode.record)
+        {
+            entity.Input.AddVelocityAtPosition(
+                Convert(-2 * Mass * Velocity), // TODO: calculate actual impulse between two RB
+                Convert(collision.contacts[0].point),
+                true,
+                false
+            );
+        }
+    }
+
+    void Reset()
+    {
+        entity = new TSEntity(
+            Mass,
+            Convert(InertiaTensor),
+            Convert(InertiaTensorRotation),
+            Convert(Vector3.zero),
+            Convert(transform.position),
+            Convert(Vector3.zero),
+            Convert(transform.rotation)
+        );
+    }
+
+    void Start()
+    {
+        //Rigidbody rb = GetComponent<Rigidbody>();
+        //rb.Sleep();
+        //Debug.Log(rb.inertiaTensor.x);
+        //Debug.Log(rb.inertiaTensor.y);
+        //Debug.Log(rb.inertiaTensor.z); // 0.20875 .20875 .3025
+        //Debug.Log(rb.inertiaTensorRotation.w);
+        //Debug.Log(rb.inertiaTensorRotation.x);
+        //Debug.Log(rb.inertiaTensorRotation.y);
+        //Debug.Log(rb.inertiaTensorRotation.z); // 0 0 .3025 .9238796
+
+        Reset();
+    }
+
+    void FixedUpdate()
+    {
+        entity.Simulate();
+        // TODO: create an abstraction layer on entity?
+        transform.position = Convert(entity.State.Position);
+        transform.rotation = Convert(entity.State.Rotation);
+
+        // TODO: switch between states, handle collision, etc.
+
+        entity.Prepare(Mode); // note: for the next frame
+    }
 }
