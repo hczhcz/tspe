@@ -92,6 +92,13 @@
             }
         }
 
+        public void Prepare(InputMode mode)
+        {
+            Mode = mode;
+
+            Prepare();
+        }
+
         public void Simulate()
         {
             if (Inputs.ContainsKey(Time.Frame))

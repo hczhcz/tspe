@@ -13,6 +13,7 @@ public class TSymmetryRigidbody : MonoBehaviour
     public bool IsKinematic; // TODO: implement
     public Vector3 InertiaTensor;
     public Quaternion InertiaTensorRotation;
+    public TSEntity.InputMode Mode = TSEntity.InputMode.record;
 
     public Vector3 Velocity
     {
@@ -93,14 +94,15 @@ public class TSymmetryRigidbody : MonoBehaviour
 
     void Start()
     {
-        // TODO: manually calculate the inertia tensor?
-        Rigidbody rb = GetComponent<Rigidbody>();
-        Mass = rb.mass;
-        UseGravity = rb.useGravity;
-        IsKinematic = rb.isKinematic;
-        InertiaTensor = rb.inertiaTensor;
-        InertiaTensorRotation = rb.inertiaTensorRotation;
-        rb.Sleep();
+        //Rigidbody rb = GetComponent<Rigidbody>();
+        //rb.Sleep();
+        //Debug.Log(rb.inertiaTensor.x);
+        //Debug.Log(rb.inertiaTensor.y);
+        //Debug.Log(rb.inertiaTensor.z); // 0.20875 .20875 .3025
+        //Debug.Log(rb.inertiaTensorRotation.w);
+        //Debug.Log(rb.inertiaTensorRotation.x);
+        //Debug.Log(rb.inertiaTensorRotation.y);
+        //Debug.Log(rb.inertiaTensorRotation.z); // 0 0 .3025 .9238796
 
         Reset();
     }
@@ -114,12 +116,12 @@ public class TSymmetryRigidbody : MonoBehaviour
 
         // TODO: switch between states, handle collision, etc.
 
-        entity.Prepare(); // note: for the next frame
+        entity.Prepare(Mode); // note: for the next frame
     }
 
     public void Flip()
     {
-        entity.State.Flip();
+        entity.Flip();
     }
 
     public void AddForce(Vector3 force, ForceMode forceMode = ForceMode.Force)
