@@ -198,21 +198,22 @@ public class TSymmetryRigidbody : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision);
-        Debug.Log(collision.contacts);
-        Debug.Log(collision.contacts[0].point);
-        Debug.Log(collision.contacts[0].separation);
-        Debug.Log(collision.contacts[0].normal);
-        Debug.Log(collision.impulse);
-        Debug.Log(collision.relativeVelocity);
+        //Debug.Log(collision.contacts[0].point);
+        //Debug.Log(collision.contacts[0].separation);
+        //Debug.Log(collision.contacts[0].normal);
+        //Debug.Log(collision.impulse);
+        //Debug.Log(collision.relativeVelocity);
 
         if (Mode == TSEntity.InputMode.record)
         {
-            entity.Input.AddVelocityAtPosition(
-                Convert(-2 * Mass * Velocity), // TODO: calculate actual impulse between two RB
+            Debug.Log(collision.gameObject);
+            Debug.Log(collision.gameObject.GetComponent<TSymmetryRigidbody>());
+            TSEntity other = collision.gameObject.GetComponent<TSymmetryRigidbody>().entity;
+
+            entity.Input.AddCollision(
+                other,
                 Convert(collision.contacts[0].point),
-                true,
-                false
+                Convert(collision.contacts[0].normal)
             );
         }
     }
@@ -236,11 +237,11 @@ public class TSymmetryRigidbody : MonoBehaviour
         //rb.Sleep();
         //Debug.Log(rb.inertiaTensor.x);
         //Debug.Log(rb.inertiaTensor.y);
-        //Debug.Log(rb.inertiaTensor.z); // 0.20875 .20875 .3025
+        //Debug.Log(rb.inertiaTensor.z);
         //Debug.Log(rb.inertiaTensorRotation.w);
         //Debug.Log(rb.inertiaTensorRotation.x);
         //Debug.Log(rb.inertiaTensorRotation.y);
-        //Debug.Log(rb.inertiaTensorRotation.z); // 0 0 .3025 .9238796
+        //Debug.Log(rb.inertiaTensorRotation.z);
 
         Reset();
     }

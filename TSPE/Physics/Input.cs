@@ -111,5 +111,22 @@
 
             AddAngularVelocity(position.Cross(vector), true, true);
         }
+
+        public void AddCollision(Entity other, Vector position, Vector normal)
+        {
+            // TODO
+            Vector relativeVelocity = normal
+                * (other.State.Velocity - entity.State.Velocity).Dot(normal);
+
+            AddVelocityAtPosition(
+                2 * relativeVelocity * (
+                    entity.Inertia.Mass * other.Inertia.Mass
+                        / (entity.Inertia.Mass + other.Inertia.Mass)
+                ),
+                position,
+                true,
+                false
+            );
+        }
     }
 }
