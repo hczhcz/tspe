@@ -114,7 +114,7 @@
 
         public void AddCollision(Entity other, Vector position, Vector normal)
         {
-            // TODO
+            // TODO: handle collision in the middle of simulation instead of beginning
             Vector relativeVelocity = normal
                 * (other.State.Velocity - entity.State.Velocity).Dot(normal);
 

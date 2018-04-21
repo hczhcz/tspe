@@ -12,10 +12,10 @@ public class TSymmetryRigidbody : MonoBehaviour
     public float Mass = 1;
     public Vector3 CenterOfMass; // TODO: implement
     public Vector3 InertiaTensor;
-    public Quaternion InertiaTensorRotation;
+    public Quaternion InertiaTensorRotation = Quaternion.identity;
 
     public bool DetectCollisions = true;
-    public bool UseGravity = true; // TODO: implement
+    public bool UseGravity = true;
     public bool IsKinematic;
     public bool FreezeRotation;
     // public RigidbodyConstraints constraints;
@@ -213,9 +213,27 @@ public class TSymmetryRigidbody : MonoBehaviour
         }
     }
 
+    public Vector3 GetPointVelocity(Vector3 worldPoint)
+    {
+        TSVector position = entity.State.ToLocalPoint(Convert(worldPoint));
+
+        return Convert(
+            entity.State.Velocity
+            + entity.State.AngularVelocity.Cross(position)
+        );
+    }
+
+    public Vector3 GetRelativePointVelocity(Vector3 relativePoint)
+    {
+        TSVector position = Convert(relativePoint);
+
+        return Convert(
+            entity.State.Velocity
+                + entity.State.AngularVelocity.Cross(position)
+        );
+    }
+
     // TODO: implement these methods
-    // public Vector3 GetPointVelocity(Vector3 worldPoint);
-    // public Vector3 GetRelativePointVelocity(Vector3 relativePoint);
     // public bool SweepTest(Vector3 direction, out RaycastHit hitInfo, float maxDistance = Mathf.Infinity, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal);
     // public RaycastHit[] SweepTestAll(Vector3 direction, float maxDistance = Mathf.Infinity, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal);
 
@@ -274,7 +292,6 @@ public class TSymmetryRigidbody : MonoBehaviour
     void Start()
     {
         //Rigidbody rb = GetComponent<Rigidbody>();
-        //rb.Sleep();
         //Debug.Log(rb.inertiaTensor.x);
         //Debug.Log(rb.inertiaTensor.y);
         //Debug.Log(rb.inertiaTensor.z);
