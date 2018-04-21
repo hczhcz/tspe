@@ -8,11 +8,17 @@ public class TSymmetryRigidbody : MonoBehaviour
 {
     private TSEntity entity;
 
+    // note: can not change dynamically
     public float Mass = 1;
-    public bool UseGravity = true; // TODO: implement
-    public bool IsKinematic; // TODO: implement
+    public Vector3 CenterOfMass; // TODO: implement
     public Vector3 InertiaTensor;
     public Quaternion InertiaTensorRotation;
+
+    public bool DetectCollisions = true;
+    public bool UseGravity = true; // TODO: implement
+    public bool IsKinematic;
+    public bool FreezeRotation;
+    // public RigidbodyConstraints constraints;
     public TSEntity.InputMode Mode = TSEntity.InputMode.record;
 
     public Vector3 Velocity
@@ -81,107 +87,129 @@ public class TSymmetryRigidbody : MonoBehaviour
 
     public void AddForce(Vector3 force, ForceMode forceMode = ForceMode.Force)
     {
-        TSVector vector = Convert(force);
-
-        switch (forceMode)
+        if (!IsKinematic)
         {
-            case ForceMode.Acceleration:
-                entity.Input.AddAcceleration(vector, false, false);
-                break;
-            case ForceMode.Force:
-                entity.Input.AddAcceleration(vector, true, false);
-                break;
-            case ForceMode.VelocityChange:
-                entity.Input.AddVelocity(vector, false, false);
-                break;
-            case ForceMode.Impulse:
-                entity.Input.AddVelocity(vector, true, false);
-                break;
+            TSVector vector = Convert(force);
+
+            switch (forceMode)
+            {
+                case ForceMode.Acceleration:
+                    entity.Input.AddAcceleration(vector, false, false);
+                    break;
+                case ForceMode.Force:
+                    entity.Input.AddAcceleration(vector, true, false);
+                    break;
+                case ForceMode.VelocityChange:
+                    entity.Input.AddVelocity(vector, false, false);
+                    break;
+                case ForceMode.Impulse:
+                    entity.Input.AddVelocity(vector, true, false);
+                    break;
+            }
         }
     }
 
     public void AddTorque(Vector3 torque, ForceMode forceMode = ForceMode.Force)
     {
-        TSVector vector = Convert(torque);
-
-        switch (forceMode)
+        if (!IsKinematic && !FreezeRotation)
         {
-            case ForceMode.Acceleration:
-                entity.Input.AddAngularAcceleration(vector, false, false);
-                break;
-            case ForceMode.Force:
-                entity.Input.AddAngularAcceleration(vector, true, false);
-                break;
-            case ForceMode.VelocityChange:
-                entity.Input.AddAngularVelocity(vector, false, false);
-                break;
-            case ForceMode.Impulse:
-                entity.Input.AddAngularVelocity(vector, true, false);
-                break;
+            TSVector vector = Convert(torque);
+
+            switch (forceMode)
+            {
+                case ForceMode.Acceleration:
+                    entity.Input.AddAngularAcceleration(vector, false, false);
+                    break;
+                case ForceMode.Force:
+                    entity.Input.AddAngularAcceleration(vector, true, false);
+                    break;
+                case ForceMode.VelocityChange:
+                    entity.Input.AddAngularVelocity(vector, false, false);
+                    break;
+                case ForceMode.Impulse:
+                    entity.Input.AddAngularVelocity(vector, true, false);
+                    break;
+            }
         }
     }
 
     public void AddForceAtPosition(Vector3 force, Vector3 position, ForceMode forceMode = ForceMode.Force)
     {
-        TSVector vector = Convert(force);
-        TSVector vectorPosition = Convert(position);
-
-        switch (forceMode)
+        if (!IsKinematic)
         {
-            case ForceMode.Acceleration:
-                entity.Input.AddAccelerationAtPosition(vector, vectorPosition, false, false);
-                break;
-            case ForceMode.Force:
-                entity.Input.AddAccelerationAtPosition(vector, vectorPosition, true, false);
-                break;
-            case ForceMode.VelocityChange:
-                entity.Input.AddVelocityAtPosition(vector, vectorPosition, false, false);
-                break;
-            case ForceMode.Impulse:
-                entity.Input.AddVelocityAtPosition(vector, vectorPosition, true, false);
-                break;
+            if (FreezeRotation)
+            {
+                AddForce(force, forceMode);
+            }
+            else
+            {
+                TSVector vector = Convert(force);
+                TSVector vectorPosition = Convert(position);
+
+                switch (forceMode)
+                {
+                    case ForceMode.Acceleration:
+                        entity.Input.AddAccelerationAtPosition(vector, vectorPosition, false, false);
+                        break;
+                    case ForceMode.Force:
+                        entity.Input.AddAccelerationAtPosition(vector, vectorPosition, true, false);
+                        break;
+                    case ForceMode.VelocityChange:
+                        entity.Input.AddVelocityAtPosition(vector, vectorPosition, false, false);
+                        break;
+                    case ForceMode.Impulse:
+                        entity.Input.AddVelocityAtPosition(vector, vectorPosition, true, false);
+                        break;
+                }
+            }
         }
     }
 
     public void AddRelativeForce(Vector3 force, ForceMode forceMode = ForceMode.Force)
     {
-        TSVector vector = Convert(force);
-
-        switch (forceMode)
+        if (!IsKinematic)
         {
-            case ForceMode.Acceleration:
-                entity.Input.AddAcceleration(vector, false, true);
-                break;
-            case ForceMode.Force:
-                entity.Input.AddAcceleration(vector, true, true);
-                break;
-            case ForceMode.VelocityChange:
-                entity.Input.AddVelocity(vector, false, true);
-                break;
-            case ForceMode.Impulse:
-                entity.Input.AddVelocity(vector, true, true);
-                break;
+            TSVector vector = Convert(force);
+
+            switch (forceMode)
+            {
+                case ForceMode.Acceleration:
+                    entity.Input.AddAcceleration(vector, false, true);
+                    break;
+                case ForceMode.Force:
+                    entity.Input.AddAcceleration(vector, true, true);
+                    break;
+                case ForceMode.VelocityChange:
+                    entity.Input.AddVelocity(vector, false, true);
+                    break;
+                case ForceMode.Impulse:
+                    entity.Input.AddVelocity(vector, true, true);
+                    break;
+            }
         }
     }
 
     public void AddRelativeTorque(Vector3 torque, ForceMode forceMode = ForceMode.Force)
     {
-        TSVector vector = Convert(torque);
-
-        switch (forceMode)
+        if (!IsKinematic && !FreezeRotation)
         {
-            case ForceMode.Acceleration:
-                entity.Input.AddAngularAcceleration(vector, false, true);
-                break;
-            case ForceMode.Force:
-                entity.Input.AddAngularAcceleration(vector, true, true);
-                break;
-            case ForceMode.VelocityChange:
-                entity.Input.AddAngularVelocity(vector, false, true);
-                break;
-            case ForceMode.Impulse:
-                entity.Input.AddAngularVelocity(vector, true, true);
-                break;
+            TSVector vector = Convert(torque);
+
+            switch (forceMode)
+            {
+                case ForceMode.Acceleration:
+                    entity.Input.AddAngularAcceleration(vector, false, true);
+                    break;
+                case ForceMode.Force:
+                    entity.Input.AddAngularAcceleration(vector, true, true);
+                    break;
+                case ForceMode.VelocityChange:
+                    entity.Input.AddAngularVelocity(vector, false, true);
+                    break;
+                case ForceMode.Impulse:
+                    entity.Input.AddAngularVelocity(vector, true, true);
+                    break;
+            }
         }
     }
 
@@ -204,17 +232,29 @@ public class TSymmetryRigidbody : MonoBehaviour
         //Debug.Log(collision.impulse);
         //Debug.Log(collision.relativeVelocity);
 
-        if (Mode == TSEntity.InputMode.record)
+        if (DetectCollisions && Mode == TSEntity.InputMode.record)
         {
-            Debug.Log(collision.gameObject);
-            Debug.Log(collision.gameObject.GetComponent<TSymmetryRigidbody>());
             TSEntity other = collision.gameObject.GetComponent<TSymmetryRigidbody>().entity;
 
-            entity.Input.AddCollision(
-                other,
-                Convert(collision.contacts[0].point),
-                Convert(collision.contacts[0].normal)
-            );
+            if (!IsKinematic)
+            {
+                if (FreezeRotation)
+                {
+                    entity.Input.AddCollision(
+                        other,
+                        entity.State.Position,
+                        Convert(collision.contacts[0].normal)
+                    );
+                }
+                else
+                {
+                    entity.Input.AddCollision(
+                        other,
+                        Convert(collision.contacts[0].point),
+                        Convert(collision.contacts[0].normal)
+                    );
+                }
+            }
         }
     }
 
@@ -249,11 +289,9 @@ public class TSymmetryRigidbody : MonoBehaviour
     void FixedUpdate()
     {
         entity.Simulate();
-        // TODO: create an abstraction layer on entity?
+
         transform.position = Convert(entity.State.Position);
         transform.rotation = Convert(entity.State.Rotation);
-
-        // TODO: switch between states, handle collision, etc.
 
         entity.Prepare(Mode); // note: for the next frame
     }
