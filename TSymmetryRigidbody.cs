@@ -294,7 +294,13 @@ public class TSymmetryRigidbody : MonoBehaviour
 
     void Start()
     {
-        //Rigidbody rb = GetComponent<Rigidbody>();
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            // turn off object sleeping
+            rb.sleepThreshold = 0;
+        }
         //Debug.Log(rb.inertiaTensor.x);
         //Debug.Log(rb.inertiaTensor.y);
         //Debug.Log(rb.inertiaTensor.z);
