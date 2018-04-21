@@ -242,6 +242,7 @@ public class TSymmetryRigidbody : MonoBehaviour
         entity.Flip();
     }
 
+    private bool hasCollision; // TODO: temporary, should be handled in TSEntity
     void OnCollisionEnter(Collision collision)
     {
         //Debug.Log(collision.contacts[0].point);
@@ -273,6 +274,8 @@ public class TSymmetryRigidbody : MonoBehaviour
                     );
                 }
             }
+
+            hasCollision = true;
         }
     }
 
@@ -305,6 +308,12 @@ public class TSymmetryRigidbody : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (UseGravity && Mode == TSEntity.InputMode.record && !hasCollision)
+        {
+            AddForce(Physics.gravity);
+        }
+        hasCollision = false; // TODO
+
         entity.Simulate();
 
         transform.position = Convert(entity.State.Position);
